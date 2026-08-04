@@ -1,0 +1,413 @@
+/* ========================================
+   GLOBAL STYLES
+   ======================================== */
+
+/* ✅ All pages EXCEPT Home will use this background */
+body:not(.theme-home) {
+  background-color: #E8FFFF !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #1a1a2e;
+  margin: 0;
+  padding: 0;
+}
+
+/* ✅ Home page keeps its own background */
+body.theme-home {
+  background-color: #0F172A !important;
+}
+
+/* ✅ Default body for pages using Layout */
+body {
+  background-color: #E8FFFF;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #1a1a2e;
+  margin: 0;
+  padding: 0;
+}
+
+/* ========================================
+   SIDEBAR
+   ======================================== */
+
+.sidebar {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.sidebar .nav-link {
+  color: #c8d6e5;
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.sidebar .nav-link.active {
+  background: #2563EB;
+  color: #ffffff;
+}
+
+/* ========================================
+   CARDS - White with Shadow for Contrast
+   ======================================== */
+
+.dashboard-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #ffffff !important;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card .card-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+/* ========================================
+   TABLES
+   ======================================== */
+
+.table-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+}
+
+.table th {
+  border-top: none;
+  color: #4B5563;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.table td {
+  color: #1A1A2E;
+  vertical-align: middle;
+}
+
+/* ========================================
+   STATUS BADGES - HIGH CONTRAST
+   ======================================== */
+
+.badge-status {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge-status-completed {
+  background: #d1fae5;
+  color: #065f46 !important;
+}
+
+.badge-status-ongoing {
+  background: #fef3c7;
+  color: #92400e !important;
+}
+
+.badge-status-planned {
+  background: #dbeafe;
+  color: #1e40af !important;
+}
+
+.badge-status-overdue {
+  background: #fee2e2;
+  color: #991b1b !important;
+}
+
+/* ========================================
+   PRIORITY BADGES - HIGH CONTRAST
+   ======================================== */
+
+.badge-priority {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge-priority-high {
+  background: #fee2e2;
+  color: #991b1b !important;
+}
+
+.badge-priority-medium {
+  background: #fef3c7;
+  color: #92400e !important;
+}
+
+.badge-priority-low {
+  background: #dbeafe;
+  color: #1e40af !important;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .sidebar {
+    min-height: auto;
+    padding-bottom: 20px;
+  }
+}
+
+/* ========================================
+   FORM STYLES
+   ======================================== */
+
+.form-control:focus {
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-control,
+.form-select {
+  background-color: #ffffff;
+  border-color: #E2E8F0;
+  color: #1A1A2E;
+}
+
+.form-control::placeholder {
+  color: #4B5563;
+  opacity: 0.7;
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.btn-primary {
+  background: #2563EB;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-outline-primary {
+  color: #2563EB;
+  border-color: #2563EB;
+}
+
+.btn-outline-primary:hover {
+  background: #2563EB;
+  color: #fff;
+}
+
+/* ========================================
+   TEXT - Ensure Visibility on Light Blue
+   ======================================== */
+
+/* ✅ All text should be dark for contrast on #E8FFFF */
+.text-muted {
+  color: #4B5563 !important;
+}
+
+small,
+.small,
+.form-label,
+label {
+  color: #4B5563;
+}
+
+h1, h2, h3, h4, h5, h6,
+p, span, div {
+  color: #1A1A2E;
+}
+
+/* ✅ Ensure card titles and text are visible */
+.card-title,
+.card-text,
+.card-body p,
+.card-body h5,
+.card-body h6 {
+  color: #1A1A2E;
+}
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #E8FFFF;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2563EB;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1d4ed8;
+}
+
+/* ========================================
+   CALENDAR - Visible on Light Blue
+   ======================================== */
+
+.react-calendar {
+  background: #ffffff !important;
+  border-color: #E2E8F0 !important;
+  color: #1A1A2E !important;
+}
+
+.react-calendar__tile {
+  color: #1A1A2E !important;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  color: #4B5563 !important;
+}
+
+.react-calendar__tile--active {
+  background: #2563EB !important;
+  color: #ffffff !important;
+}
+
+/* ========================================
+   CHART CONTAINERS
+   ======================================== */
+
+.chart-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+/* ========================================
+   TOAST NOTIFICATIONS
+   ======================================== */
+
+.Toastify__toast {
+  background: #ffffff !important;
+  color: #1A1A2E !important;
+  border: 1px solid #E2E8F0 !important;
+}
+
+.Toastify__toast-body {
+  color: #1A1A2E !important;
+}
+
+/* ========================================
+   SETTINGS PAGE - COMPACT STYLES
+   ======================================== */
+
+/* Settings card compact spacing */
+.settings-card .card-body {
+  padding: 12px 16px !important;
+}
+
+.settings-card .card-title {
+  font-size: 14px !important;
+  margin-bottom: 6px !important;
+}
+
+.settings-card .form-label {
+  font-size: 12px !important;
+  margin-bottom: 2px !important;
+}
+
+.settings-card .form-control-sm {
+  font-size: 13px;
+  padding: 4px 10px;
+  height: 32px;
+}
+
+.settings-card .btn-sm {
+  font-size: 13px;
+  padding: 4px 12px;
+}
+
+.settings-card hr {
+  margin: 6px 0 !important;
+}
+
+/* Profile picture hover effect */
+.profile-pic-wrapper {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.profile-pic-wrapper:hover .camera-overlay {
+  opacity: 1;
+}
+
+.camera-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #2563EB;
+  border-radius: 50%;
+  padding: 6px;
+  border: 2px solid #fff;
+  transition: opacity 0.3s ease;
+}

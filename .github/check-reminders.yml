@@ -1,0 +1,43 @@
+name: Check Compliance Reminders
+
+on:
+  # ✅ Runs daily at 9:00 AM IST (3:30 AM UTC)
+  # India Standard Time (IST) is UTC +5:30
+  # 9:00 AM IST = 3:30 AM UTC
+  schedule:
+    - cron: '30 3 * * *'    # 3:30 AM UTC = 9:00 AM IST
+  
+  # ✅ Manual trigger for testing
+  workflow_dispatch:
+
+jobs:
+  check-reminders:
+    name: Check Reminders
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Trigger Reminder Check
+        run: |
+          echo "🔄 Checking compliance reminders at 9:00 AM IST..."
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+            https://your-app-name.onrender.com/api/check-reminders \
+            -H "Content-Type: application/json" \
+            -H "X-API-Key: ${{ secrets.GITHUB_ACTIONS_API_KEY }}")
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n-1)
+          
+          echo "📡 Response Code: $HTTP_CODE"
+          echo "📨 Response Body: $BODY"
+          
+          if [ $HTTP_CODE -eq 200 ]; then
+            echo "✅ Reminder check completed successfully at 9:00 AM IST!"
+          else
+            echo "❌ Reminder check failed!"
+            exit 1
+          fi
+        env:
+          GITHUB_ACTIONS_API_KEY: ${{ secrets.GITHUB_ACTIONS_API_KEY }}
