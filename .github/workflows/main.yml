@@ -1,0 +1,34 @@
+name: Check Compliance Reminders
+
+on:
+  schedule:
+    - cron: '30 3 * * *'    # 9:00 AM IST
+  workflow_dispatch:
+
+jobs:
+  check-reminders:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Trigger Reminder Check
+        run: |
+          echo "🔄 Checking compliance reminders at 9:00 AM IST..."
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+            https://hr-comply360-statutory-compliance-suite-2.onrender.com/api/check-reminders \
+            -H "Content-Type: application/json" \
+            -H "X-API-Key: ${{ secrets.REMINDER_API_KEY }}")
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n-1)
+          
+          echo "📡 Response Code: $HTTP_CODE"
+          echo "📨 Response Body: $BODY"
+          
+          if [ $HTTP_CODE -eq 200 ]; then
+            echo "✅ Reminder check completed successfully at 9:00 AM IST!"
+          else
+            echo "❌ Reminder check failed!"
+            exit 1
+          fi
