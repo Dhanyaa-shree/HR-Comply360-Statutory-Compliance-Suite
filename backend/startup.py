@@ -4,11 +4,11 @@ from models.user import User
 
 def init_database():
     with app.app_context():
-        # Create all tables
+        # ✅ Create all tables first
         db.create_all()
         print("✅ Database tables created/verified")
         
-        # Create default user if not exists
+        # ✅ Then query the user
         user = User.query.filter_by(email='hr@company.com').first()
         if not user:
             hashed = bcrypt.hashpw('password123'.encode('utf-8'), bcrypt.gensalt())
