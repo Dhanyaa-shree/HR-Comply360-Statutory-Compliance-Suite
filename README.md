@@ -85,29 +85,122 @@ The system enables HR teams to:
 
 ---
 
-# 🏗 Architecture
+# 🏗️ System Architecture
 
+```text
+                                   HR Comply360
+                    Statutory Compliance Management System
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                               Client Layer                                 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  React.js • Bootstrap • Chart.js • React Calendar • Axios • React Router   │
+│                                                                             │
+│  Dashboard │ Compliance │ Calendar │ Documents │ Analytics │ Notifications  │
+│                                                                             │
+└───────────────────────────────┬─────────────────────────────────────────────┘
+                                │
+                                │ HTTPS / REST API (JWT Authentication)
+                                ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              Backend Layer                                 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                              Flask REST API                                │
+│                                                                             │
+│  ┌────────────┐ ┌──────────────┐ ┌──────────────┐ ┌────────────────────┐    │
+│  │ Auth API   │ │ Compliance   │ │ Documents    │ │ Notifications API  │    │
+│  └────────────┘ └──────────────┘ └──────────────┘ └────────────────────┘    │
+│                                                                             │
+│             Business Services & Validation Layer                            │
+│                                                                             │
+│  • JWT Authentication                                                       │
+│  • Excel/CSV Processing                                                     │
+│  • Reminder Scheduler                                                       │
+│  • Email Service                                                            │
+│  • File Upload Management                                                   │
+│                                                                             │
+└───────────────────────────────┬─────────────────────────────────────────────┘
+                                │
+                                │ SQLAlchemy ORM
+                                ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              Database Layer                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│                     SQLite (Development)                                    │
+│              PostgreSQL / MySQL (Production)                               │
+│                                                                             │
+│  Users │ Compliance │ Documents │ Notifications │ Email Logs │ Import Logs │
+│                                                                             │
+└───────────────────────────────┬─────────────────────────────────────────────┘
+                                │
+                ┌───────────────┴────────────────┐
+                │                                │
+                ▼                                ▼
+┌────────────────────────────┐     ┌───────────────────────────────────────┐
+│ External Services          │     │ Automation & Deployment               │
+├────────────────────────────┤     ├───────────────────────────────────────┤
+│ • Gmail SMTP               │     │ • GitHub Actions Scheduler            │
+│ • Email Notifications      │     │ • Daily Reminder Trigger (9:00 AM)    │
+│ • HTML Email Templates     │     │ • Render Deployment                   │
+└────────────────────────────┘     └───────────────────────────────────────┘
 ```
-                React Frontend
-                       │
-                Axios REST API
-                       │
-                 Flask Backend
-                       │
-        ┌──────────────┼──────────────┐
-        │              │              │
- Authentication   Compliance     Notifications
-        │              │              │
-        └──────────────┼──────────────┘
-                       │
-               SQLAlchemy ORM
-                       │
-              SQLite / PostgreSQL
-                       │
-      Email Service + Scheduler
-             Gmail SMTP
-        GitHub Actions Cron
+
+---
+
+## Architecture Flow
+
+```text
+User
+   │
+   ▼
+React Frontend
+   │
+   ▼
+Axios HTTP Requests
+   │
+   ▼
+Flask REST API
+   │
+   ├── JWT Authentication
+   ├── Compliance Management
+   ├── Document Management
+   ├── Notification Service
+   └── Excel Import Service
+   │
+   ▼
+SQLAlchemy ORM
+   │
+   ▼
+Database
+   │
+   ├── Users
+   ├── Compliance Records
+   ├── Notifications
+   ├── Documents
+   ├── Email Logs
+   └── Import Logs
+   │
+   ▼
+GitHub Actions Scheduler
+   │
+   ▼
+Reminder Service
+   │
+   ├── Gmail SMTP Emails
+   └── In-App Notifications
 ```
+
+### Architecture Highlights
+
+* **Presentation Layer:** React-based responsive user interface for HR operations.
+* **API Layer:** Flask REST APIs handling authentication, compliance, uploads, and notifications.
+* **Business Layer:** Validation, reminder scheduling, email processing, and Excel parsing.
+* **Data Layer:** SQLAlchemy ORM with SQLite for development and PostgreSQL/MySQL for production.
+* **Automation Layer:** GitHub Actions triggers scheduled reminder jobs every day at **9:00 AM IST**.
+* **Notification Layer:** Sends automated email reminders via Gmail SMTP and stores in-app notifications.
+
 
 ---
 
@@ -534,7 +627,11 @@ This project is licensed under the **MIT License**.
 # 👩‍💻 Author
 
 **Dhanyaa Shree**
-GitHub: **https://github.com/Dhanyaa-shree**
+
+📧 **Email:** [dhanyaashreet010@gmail.com](mailto:dhanyaashreet010@gmail.com)
+
+🐙 **GitHub:** https://github.com/Dhanyaa-shree
+
 
 ---
 
