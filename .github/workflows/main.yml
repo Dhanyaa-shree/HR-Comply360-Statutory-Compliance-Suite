@@ -11,24 +11,25 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      
+
       - name: Trigger Reminder Check
         run: |
           echo "🔄 Checking compliance reminders at 9:00 AM IST..."
-          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+          RESPONSE=$(curl -i -X POST \
             https://hr-comply360-statutory-compliance-suite-2.onrender.com/api/check-reminders \
             -H "Content-Type: application/json" \
             -H "X-API-Key: ${{ secrets.REMINDER_API_KEY }}")
           
-          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
-          BODY=$(echo "$RESPONSE" | head -n-1)
+          echo "$RESPONSE"
+          echo "----------------------------------------"
           
-          echo "📡 Response Code: $HTTP_CODE"
-          echo "📨 Response Body: $BODY"
+          STATUS_CODE=$(echo "$RESPONSE" | grep -E "^HTTP/[0-9.]+\s+([0-9]+)" | awk '{print $2}' | head -1)
+          echo "HTTP Status Code: $STATUS_CODE"
           
-          if [ $HTTP_CODE -eq 200 ]; then
-            echo "✅ Reminder check completed successfully at 9:00 AM IST!"
+          if [ "$STATUS_CODE" = "200" ]; then
+            echo "✅ Reminder check completed successfully!"
           else
-            echo "❌ Reminder check failed!"
+            echo "❌ Reminder check failed with status $STATUS_CODE."
+            echo "Check the response body above for more details."
             exit 1
           fi
