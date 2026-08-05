@@ -47,6 +47,12 @@ CORS(app,
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 
+# ============ ENSURE TABLES EXIST ON STARTUP ============
+# ✅ This runs when gunicorn starts the app (and also when running python app.py)
+with app.app_context():
+    db.create_all()
+    print("✅ Database tables created/verified on startup")
+
 print(f"📁 Database path: {DB_PATH}")
 print(f"📧 Email configured for: {app.config['MAIL_USERNAME']}")
 
@@ -914,10 +920,5 @@ if __name__ == '__main__':
     print("📍 Server: http://localhost:5000")
     print("📧 Email: " + (app.config['MAIL_USERNAME'] or 'Not configured'))
     print("="*50 + "\n")
-    
-    # ✅ Ensure all tables exist before running
-    with app.app_context():
-        db.create_all()
-        print("✅ Database tables created/verified")
     
     app.run(host='0.0.0.0', port=5000, debug=True)
