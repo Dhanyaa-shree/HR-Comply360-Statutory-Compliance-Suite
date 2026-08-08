@@ -537,7 +537,8 @@ def get_unread_count():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/notifications/<int:id>/read', methods(['PUT'])
+# ✅ FIXED: Correct syntax - methods=['PUT']
+@app.route('/api/notifications/<int:id>/read', methods=['PUT'])
 @jwt_required()
 def mark_read(id):
     try:
@@ -812,7 +813,8 @@ def run_reminder_check():
         
         for compliance in compliance_list:
             if not compliance.valid_date:
-                continue            
+                continue
+            
             # Ensure reminder dates are set
             if not compliance.reminder_1_date:
                 compliance.reminder_1_date = compliance.valid_date - timedelta(days=30)
@@ -915,7 +917,7 @@ if __name__ == '__main__':
     print("\n" + "="*50)
     print("🚀 HR Comply360 Backend")
     print("="*50)
-    print("📧 Login: thangaraj4u@gmail.com")  # ← UPDATED
+    print("📧 Login: thangaraj4u@gmail.com")
     print("🔑 Password: password123")
     print("📍 Server: http://localhost:5000")
     print("📧 Email: " + (app.config['MAIL_USERNAME'] or 'Not configured'))
