@@ -921,4 +921,9 @@ if __name__ == '__main__':
     print("📧 Email: " + (app.config['MAIL_USERNAME'] or 'Not configured'))
     print("="*50 + "\n")
     
+    # ✅ Ensure all tables exist before running
+    with app.app_context():
+        db.create_all()
+        print("✅ Database tables created/verified")
+    
     app.run(host='0.0.0.0', port=5000, debug=True)
