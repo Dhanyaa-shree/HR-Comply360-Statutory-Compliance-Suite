@@ -2,7 +2,7 @@ name: Check Compliance Reminders
 
 on:
   schedule:
-    - cron: '30 3 * * *'    # 9:00 AM IST
+    - cron: '30 3 * * *'    # 3:30 AM UTC = 9:00 AM IST
   workflow_dispatch:
 
 jobs:
@@ -27,7 +27,7 @@ jobs:
           echo "HTTP Status Code: $STATUS_CODE"
           
           if [ "$STATUS_CODE" = "200" ]; then
-            echo "✅ Reminder check completed successfully!"
+            echo "✅ Reminder check completed successfully at 9:00 AM IST!"
           else
             echo "❌ Reminder check failed with status $STATUS_CODE."
             echo "Check the response body above for more details."
