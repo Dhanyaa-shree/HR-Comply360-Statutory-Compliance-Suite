@@ -202,20 +202,20 @@ def init_db():
         db.create_all()
         print("✅ Database tables created")
         
-        # ✅ CHANGED: Default user email is now thangaraj4u@gmail.com
-        user = User.query.filter_by(email='thangaraj4u@gmail.com').first()
+        # ✅ FORCE CREATE USER - Check if ANY user exists
+        user = User.query.first()
         if not user:
             hashed = bcrypt.hashpw('password123'.encode('utf-8'), bcrypt.gensalt())
             user = User(
                 name='HR Admin',
-                email='thangaraj4u@gmail.com',  # ← CHANGED HERE
+                email='thangaraj4u@gmail.com',
                 password_hash=hashed.decode('utf-8')
             )
             db.session.add(user)
             db.session.commit()
             print("✅ Default user created: thangaraj4u@gmail.com / password123")
         else:
-            print("✅ User already exists")
+            print(f"✅ User already exists: {user.email}")
 
 # ============ EMAIL ============
 def send_email(recipient, subject, body):
@@ -916,7 +916,7 @@ if __name__ == '__main__':
     print("\n" + "="*50)
     print("🚀 HR Comply360 Backend")
     print("="*50)
-    print("📧 Login: thangaraj4u@gmail.com")  # ← UPDATED
+    print("📧 Login: thangaraj4u@gmail.com")
     print("🔑 Password: password123")
     print("📍 Server: http://localhost:5000")
     print("📧 Email: " + (app.config['MAIL_USERNAME'] or 'Not configured'))
