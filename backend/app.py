@@ -208,12 +208,12 @@ def init_db():
             hashed = bcrypt.hashpw('password123'.encode('utf-8'), bcrypt.gensalt())
             user = User(
                 name='HR Admin',
-                email='thangaraj4u@gmail.com',
+                email='hr@company.com',  # ← This user will work for login
                 password_hash=hashed.decode('utf-8')
             )
             db.session.add(user)
             db.session.commit()
-            print("✅ Default user created: thangaraj4u@gmail.com / password123")
+            print("✅ Default user created: hr@company.com / password123")
         else:
             print(f"✅ User already exists: {user.email}")
 
@@ -812,8 +812,7 @@ def run_reminder_check():
         
         for compliance in compliance_list:
             if not compliance.valid_date:
-                continue
-            
+                continue            
             # Ensure reminder dates are set
             if not compliance.reminder_1_date:
                 compliance.reminder_1_date = compliance.valid_date - timedelta(days=30)
@@ -916,7 +915,7 @@ if __name__ == '__main__':
     print("\n" + "="*50)
     print("🚀 HR Comply360 Backend")
     print("="*50)
-    print("📧 Login: thangaraj4u@gmail.com")
+    print("📧 Login: hr@company.com")
     print("🔑 Password: password123")
     print("📍 Server: http://localhost:5000")
     print("📧 Email: " + (app.config['MAIL_USERNAME'] or 'Not configured'))
