@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// API base URL - uses environment variable or falls back to localhost
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+// API base URL - HARDCODED for Render
+const API_BASE = 'https://hr-comply360-statutory-compliance-suite-2.onrender.com/api';
 
 // Create axios instance
 const api = axios.create({
