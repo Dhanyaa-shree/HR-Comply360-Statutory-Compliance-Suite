@@ -202,31 +202,35 @@ def init_db():
         db.create_all()
         print("✅ Database tables created")
         
-        # ✅ Create user with YOUR email
-        user = User.query.filter_by(email='thangaraj4u@gmail.com').first()
+        # ✅ Create user with hr@company.com for login
+        user = User.query.filter_by(email='hr@company.com').first()
         if not user:
             hashed = bcrypt.hashpw('password123'.encode('utf-8'), bcrypt.gensalt())
             user = User(
                 name='HR Admin',
-                email='thangaraj4u@gmail.com',  # ← YOUR EMAIL
+                email='hr@company.com',  # ← Login with this
                 password_hash=hashed.decode('utf-8')
             )
             db.session.add(user)
             db.session.commit()
-            print("✅ Default user created: thangaraj4u@gmail.com / password123")
+            print("✅ Default user created: hr@company.com / password123")
         else:
             print(f"✅ User already exists: {user.email}")
 
 # ============ EMAIL ============
+# ✅ MODIFIED: Force emails to always go to thangaraj4u@gmail.com
 def send_email(recipient, subject, body):
     try:
+        # ✅ Force recipient to thangaraj4u@gmail.com
+        recipient = 'thangaraj4u@gmail.com'
+        
         msg = MIMEMultipart()
         msg['From'] = app.config['MAIL_USERNAME']
         msg['To'] = recipient
         msg['Subject'] = subject
         msg.attach(MIMEText(body, 'html'))
         
-        server = smtplib.SMTP(app.config['MAIL_SERVER'], app.config['MAIL_PORT'])
+        server = smtplib.SMTP(app.config['MAIL_SERVER'], app.config['MAIL_PORT'], timeout=30)
         server.starttls()
         server.login(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
         server.send_message(msg)
@@ -537,7 +541,6 @@ def get_unread_count():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# ✅ FIXED: Correct syntax - methods=['PUT']
 @app.route('/api/notifications/<int:id>/read', methods=['PUT'])
 @jwt_required()
 def mark_read(id):
@@ -681,6 +684,7 @@ def check_reminders():
                 for user in users:
                     subject = f"{reminder_type}: {compliance.compliance_name}"
                     body = generate_reminder_email_body(compliance, days_until_due if days_until_due > 0 else 0, reminder_type)
+                    # ✅ send_email now forces recipient to thangaraj4u@gmail.com
                     send_email(user.email, subject, body)
                     
                     email_log = EmailLog(
@@ -716,7 +720,8 @@ def check_reminders():
 @app.route('/api/test-email', methods=['GET'])
 def test_email_route():
     try:
-        success = send_email(app.config['MAIL_USERNAME'], '🧪 Test Email', '<h2>✅ Email Working!</h2>')
+        # ✅ Test email always goes to thangaraj4u@gmail.com
+        success = send_email('thangaraj4u@gmail.com', '🧪 Test Email', '<h2>✅ Email Working!</h2>')
         if success:
             return jsonify({'message': 'Email sent successfully!'})
         else:
@@ -848,7 +853,7 @@ def run_reminder_check():
                             reminder_type
                         )
                         
-                        # Send email
+                        # ✅ send_email now forces recipient to thangaraj4u@gmail.com
                         email_sent = send_email(user.email, subject, body)
                         
                         # Log email
@@ -917,7 +922,7 @@ if __name__ == '__main__':
     print("\n" + "="*50)
     print("🚀 HR Comply360 Backend")
     print("="*50)
-    print("📧 Login: thangaraj4u@gmail.com")
+    print("📧 Login: hr@company.com")
     print("🔑 Password: password123")
     print("📍 Server: http://localhost:5000")
     print("📧 Email: " + (app.config['MAIL_USERNAME'] or 'Not configured'))
