@@ -22,16 +22,21 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 INSTANCE_PATH = os.path.join(BASE_DIR, 'instance')
 os.makedirs(INSTANCE_PATH, exist_ok=True)
 
-DB_PATH = os.path.join(INSTANCE_PATH, 'dev.db')
+# ✅ Use PostgreSQL if DATABASE_URL exists, otherwise use SQLite
+DATABASE_URL = os.getenv('DATABASE_URL')
 
-# Render.com specific path
-if os.path.exists('/opt/render'):
-    DB_PATH = '/opt/render/project/src/backend/instance/dev.db'
-    os.makedirs('/opt/render/project/src/backend/instance', exist_ok=True)
+if DATABASE_URL:
+    # ✅ Use PostgreSQL (on Render)
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+    print("🔗 Connected to PostgreSQL database")
+else:
+    # ⚠️ Fallback to SQLite (local development)
+    DB_PATH = os.path.join(INSTANCE_PATH, 'dev.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_PATH}'
+    print("🔗 Connected to SQLite database (local)")
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key')
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'jwt-secret-key')
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_PATH}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['DEBUG'] = os.getenv('DEBUG', 'True') == 'True'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
@@ -209,7 +214,6 @@ with app.app_context():
     try:
         print("=" * 60)
         print("🚀 Starting HR Comply360 Backend...")
-        print(f"📁 Database path: {DB_PATH}")
         print(f"📧 Email configured for: {app.config['MAIL_USERNAME']}")
         print("=" * 60)
         
