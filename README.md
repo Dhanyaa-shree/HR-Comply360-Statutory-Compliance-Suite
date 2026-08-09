@@ -146,6 +146,15 @@ The system enables HR teams to:
 │ • HTML Email Templates     │     │ • Render Deployment                   │
 └────────────────────────────┘     └───────────────────────────────────────┘
 ```
+## 🌐 Live Deployment
+
+### 🎨 Frontend – Render
+
+👉 **[Open HR Comply360 Frontend](https://hr-comply360-frontend.onrender.com/)**
+
+### ⚙️ Backend – Render
+
+👉 **[Open HR Comply360 Backend API](https://hr-comply360-statutory-compliance-suite-2.onrender.com/)**
 
 ---
 
